@@ -8,10 +8,10 @@ Implement the code for a supermarket checkout that calculates the total price of
 _To some extent, this is just a fun little problem. But underneath the covers, it’s a stealth exercise in decoupling. The challenge description doesn’t mention the format of the pricing rules. How can these be specified in such a way that the checkout doesn’t know about particular items and their pricing strategies? How can we make the design flexible enough so that we can add new styles of pricing rule in the future?_
 
 ### My approach
-In addition to implementing this kata, and trying to achieve the objective, I decided to use a test driven development (TDD) approach. While it is not clear by simply looking at the code, while writing it, I adhere to the three principles of TDD (as much as I can)
-1. Do not write code unless it is to make a failing test pass
-2. Write the smallest test that is sufficient to fail, and compilation failures count
-3. Write just enough code to make the test pass
+In addition to implementing this kata, and trying to achieve the objective, I decided to use a test driven development (TDD) approach. While it is not clear by simply looking at the code, while writing it, I adhere to the three principles of TDD (as much as I can)  
+1. Do not write code unless it is to make a failing test pass  
+2. Write the smallest test that is sufficient to fail, and compilation failures count  
+3. Write just enough code to make the test pass  
 
 As a result of this approach, most of my commits will always have at least one test failing, and this is intentional.
 
