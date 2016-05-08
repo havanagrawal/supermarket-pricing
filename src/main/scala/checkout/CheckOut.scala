@@ -1,27 +1,40 @@
 package checkout
 
-import pricing.PricingRules
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.Map
+
+import pricing.PricingRules
 
 class CheckOut(pricingRules: PricingRules) {
   private var runningTotal = 0.0
-  private val itemsScanned = ArrayBuffer.empty[String]
+
+  private val itemsScanned = Map.empty[String, Int]
 
   def scan(itemName: String): Unit = {
     val price = pricingRules.getStandardPrice(itemName)
-    itemsScanned += itemName
-    println(itemsScanned.mkString(", "))
+    itemsScanned.put(itemName, itemsScanned.getOrElse(itemName, 0) + 1)
     runningTotal += price
   }
 
-  def itemsScannedTillNow = itemsScanned.toList
-
   def total = {
-    optimizeItems()
+    optimizeItemsIfNeeded()
     runningTotal
   }
+
+  def itemsScannedTillNow = itemsScanned.flatMap{case (item, count) => List.fill(count)(item)}.toList
   
-  def optimizeItems() = {
-    
+  def optimizeItemsIfNeeded() = {
+    itemsScanned.foreach {
+      case (itemName, freq) => {
+        val standardPrice = pricingRules.getStandardPrice(itemName)
+        pricingRules.getSpecialOfferPrice(itemName).foreach {
+          case (count, cost) => {
+            val canBeGrouped = freq / count
+            runningTotal -= canBeGrouped * count * standardPrice
+            runningTotal += cost
+          }
+        }
+      }
+    }
   }
 }
